@@ -23,7 +23,8 @@ class InventarisSeeder extends Seeder
         foreach ($items as $item) {
             Inventaris::create([
                 'name' => $item,
-                'stok' => random_int(1, 50),
+                'stok_sekarang' => random_int(25, 50),
+                'stok_total' => random_int(1, 25),
                 'category_id' => Kategori::inRandomOrder()->first()->id,
                 'rak_id' => Rak::inRandomOrder()->first()->id,
             ]);

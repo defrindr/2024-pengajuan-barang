@@ -20,7 +20,7 @@ class Inventaris extends BaseModel
 
     protected $table = 'inventaris';
 
-    protected $fillable = ['qrcode', 'name', 'category_id', 'rak_id'];
+    protected $fillable = ['qrcode', 'name', 'category_id', 'rak_id', 'stok_sekarang', 'stok_total'];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
     public function scopeSearch(Builder $builder, string $keyword): void

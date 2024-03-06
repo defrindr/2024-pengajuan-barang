@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->foreignId('category_id')->references('id')->on('kategori');
             $table->foreignId('rak_id')->references('id')->on('rak');
-            $table->integer('stok')->default(1);
+            $table->integer('stok_sekarang')->default(1);
+            $table->integer('stok_total')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });
