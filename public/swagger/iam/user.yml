@@ -1,0 +1,116 @@
+list_and_create:
+  get:
+    tags:
+      - User
+    summary: list of user with pagination
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Schema mismatch or request invalid
+  post:
+    tags:
+      - User
+    summary: Create new resource
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            example:
+              username: userdummy
+              password: password
+              name: User Dummy
+              email: userdummy@mail.com
+              role_id: 1
+    responses:
+      201:
+        description: Created
+      400:
+        description: Schema mismatch or request invalid
+update_and_delete:
+  get:
+    tags:
+      - User
+    summary: Get user by specific ID
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the user to get
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Schema mismatch or request invalid
+  put:
+    tags:
+      - User
+    summary: Update user by ID
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the user to get
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            example:
+              username: userdummy
+              password: password
+              name: User Dummy
+              email: userdummy@mail.com
+              role_id: 1
+    responses:
+      200:
+        description: Updated
+      400:
+        description: Schema mismatch or request invalid
+  delete:
+    tags:
+      - User
+    summary: Delete user by ID
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the user to get
+    responses:
+      200:
+        description: Deleted
+      404:
+        description: Not found / already deleted
+change_avatar:
+  post:
+    tags:
+      - User
+    summary: Change avatar user by ID
+    parameters:
+      - in: path
+        name: userId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the user to get
+    requestBody:
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              photo:
+                type: string
+                format: binary
+    responses:
+      200:
+        description: Avatar Changed
+      404:
+        description: Resource not found

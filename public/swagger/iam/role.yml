@@ -1,0 +1,133 @@
+list_and_create:
+  get:
+    tags:
+      - Role
+    summary: list of role with pagination
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Schema mismatch or request invalid
+  post:
+    tags:
+      - Role
+    summary: Create new resource
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            example:
+              name: Student
+              description: Hak akses yang diberikan kepada seluruh siswa
+    responses:
+      201:
+        description: Created
+      400:
+        description: Schema mismatch or request invalid
+update_and_delete:
+  get:
+    tags:
+      - Role
+    summary: Get role by specific ID
+    parameters:
+      - in: path
+        name: roleId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the role to get
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Schema mismatch or request invalid
+  put:
+    tags:
+      - Role
+    summary: Update role by ID
+    parameters:
+      - in: path
+        name: roleId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the role to get
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            example:
+              name: Student
+              description: Hak akses yang diberikan kepada seluruh siswa
+    responses:
+      200:
+        description: Updated
+      400:
+        description: Schema mismatch or request invalid
+  delete:
+    tags:
+      - Role
+    summary: Delete role by ID
+    parameters:
+      - in: path
+        name: roleId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the role to get
+    responses:
+      200:
+        description: Deleted
+      404:
+        description: Not found / already deleted
+assign_menu:
+  post:
+    tags:
+      - Role
+    summary: Assign menu to specific role
+    parameters:
+      - in: path
+        name: roleId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the role to get
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            example:
+              menu_id: 1
+    responses:
+      200:
+        description: Assigned
+      400:
+        description: Schema mismatch or request invalid
+
+assign_action:
+  post:
+    tags:
+      - Role
+    summary: Assign action to specific role
+    parameters:
+      - in: path
+        name: roleId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the role to get
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            example:
+              action_id: 1
+    responses:
+      200:
+        description: Assigned
+      400:
+        description: Schema mismatch or request invalid

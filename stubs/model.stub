@@ -1,0 +1,16 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use {{ rootNamespace }}Models\BaseModel;
+
+/**
+ * Auto-generated Model {{ class }}
+ * @author defrindr
+ */
+class {{ class }} extends BaseModel
+{
+    use HasFactory;
+}

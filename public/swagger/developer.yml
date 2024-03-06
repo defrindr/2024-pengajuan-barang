@@ -1,0 +1,57 @@
+openapi: 3.0.0
+info:
+  title: POS-Penjualan
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:8000/api/
+components:
+  securitySchemes:
+    noauthAuth:
+      type: http
+      scheme: noauth
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: []
+tags:
+  - name: Auth
+  - name: Menu
+  - name: Action
+  - name: Role
+  - name: User
+paths:
+  /v1/auth/login:
+    $ref: "auth.yml#/login"
+  /v1/auth/me:
+    $ref: "auth.yml#/me"
+  /v1/auth/refresh:
+    $ref: "auth.yml#/refresh"
+  /v1/auth/logout:
+    $ref: "auth.yml#/logout"
+
+  /v1/iam/action:
+    $ref: "iam/action.yml#/list_and_create"
+  /v1/iam/action/{actionId}:
+    $ref: "iam/action.yml#/update_and_delete"
+
+  /v1/iam/menu:
+    $ref: "iam/menu.yml#/list_and_create"
+  /v1/iam/menu/{menuId}:
+    $ref: "iam/menu.yml#/update_and_delete"
+
+  /v1/iam/role:
+    $ref: "iam/role.yml#/list_and_create"
+  /v1/iam/role/{roleId}:
+    $ref: "iam/role.yml#/update_and_delete"
+  /v1/iam/role/{roleId}/assign-menu:
+    $ref: "iam/role.yml#/assign_menu"
+  /v1/iam/role/{roleId}/assign-action:
+    $ref: "iam/role.yml#/assign_action"
+
+  /v1/iam/user:
+    $ref: "iam/user.yml#/list_and_create"
+  /v1/iam/user/{userId}:
+    $ref: "iam/user.yml#/update_and_delete"
+  /v1/iam/user/{userId}/change-avatar:
+    $ref: "iam/user.yml#/change_avatar"

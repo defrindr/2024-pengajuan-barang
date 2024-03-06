@@ -1,0 +1,68 @@
+list_and_create:
+  get:
+    tags:
+      - Action
+    summary: list of actions with pagination
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Schema mismatch or request invalid
+  post:
+    tags:
+      - Action
+    summary: Create new resource
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            example:
+              name: iam_manage_newresource
+              display_name: IAM - New Resource Manager
+    responses:
+      201:
+        description: Created
+      400:
+        description: Schema mismatch or request invalid
+update_and_delete:
+  put:
+    tags:
+      - Action
+    summary: Update action by ID
+    parameters:
+      - in: path
+        name: actionId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the action to get
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            example:
+              name: iam_manage_newresource
+              display_name: IAM - New Resource Manager
+    responses:
+      200:
+        description: Updated
+      400:
+        description: Schema mismatch or request invalid
+  delete:
+    tags:
+      - Action
+    summary: Delete action by ID
+    parameters:
+      - in: path
+        name: actionId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the action to get
+    responses:
+      200:
+        description: Deleted
+      404:
+        description: Not found / already deleted
