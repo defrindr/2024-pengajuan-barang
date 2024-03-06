@@ -9,7 +9,7 @@ Backend untuk aplikasi Inventaris Gudang
 ```
 git clone https://github.com/defrindr/2024-pengajuan-barang.git
 ```
-2. Install dependecies
+2. Goto application folder and install dependecies
 ```
 composer install
 ```
