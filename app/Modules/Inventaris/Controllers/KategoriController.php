@@ -23,7 +23,7 @@ class KategoriController extends Controller
     {
         $perPage = PaginationHelper::perPage($request);
         $sort = PaginationHelper::sortCondition($request, PaginationHelper::SORT_DESC);
-        $keyword = $request->get('search', '');
+        $keyword = $request->get('search') ?? '';
 
         return ResponseHelper::successWithData(KategoriService::list($perPage, $sort, $keyword));
     }
