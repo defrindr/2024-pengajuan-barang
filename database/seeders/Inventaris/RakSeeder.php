@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\Inventaris;
 
-use App\Http\Models\Rak;
+use App\Models\Inventaris\Rak;
 use Illuminate\Database\Seeder;
 
 class RakSeeder extends Seeder

@@ -6,6 +6,9 @@ namespace Database\Seeders;
 
 use Database\Seeders\Iam\RoleSeeder;
 use Database\Seeders\Iam\UserSeeder;
+use Database\Seeders\Inventaris\InventarisSeeder;
+use Database\Seeders\Inventaris\KategoriSeeder;
+use Database\Seeders\Inventaris\RakSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,6 +22,11 @@ class DatabaseSeeder extends Seeder
             /** Module IAM */
             RoleSeeder::class,
             UserSeeder::class,
+
+            // Modale Inventaris
+            RakSeeder::class,
+            KategoriSeeder::class,
+            InventarisSeeder::class,
         ]);
     }
 }

@@ -3,6 +3,30 @@ list_and_create:
     tags:
       - Role
     summary: list of role with pagination
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          example: 1
+        description: The number of page
+      - in: query
+        name: per-page
+        schema:
+          type: integer
+          example: 10
+        description: The numbers of items to return
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: The keyword searching
+      - in: query
+        name: sort
+        schema:
+          type: string
+          example: asc
+        description: Sort type
     responses:
       200:
         description: Successfully
@@ -82,52 +106,3 @@ update_and_delete:
         description: Deleted
       404:
         description: Not found / already deleted
-assign_menu:
-  post:
-    tags:
-      - Role
-    summary: Assign menu to specific role
-    parameters:
-      - in: path
-        name: roleId
-        schema:
-          type: integer
-        required: true
-        description: Numeric ID of the role to get
-    requestBody:
-      content:
-        application/json:
-          schema:
-            type: object
-            example:
-              menu_id: 1
-    responses:
-      200:
-        description: Assigned
-      400:
-        description: Schema mismatch or request invalid
-
-assign_action:
-  post:
-    tags:
-      - Role
-    summary: Assign action to specific role
-    parameters:
-      - in: path
-        name: roleId
-        schema:
-          type: integer
-        required: true
-        description: Numeric ID of the role to get
-    requestBody:
-      content:
-        application/json:
-          schema:
-            type: object
-            example:
-              action_id: 1
-    responses:
-      200:
-        description: Assigned
-      400:
-        description: Schema mismatch or request invalid

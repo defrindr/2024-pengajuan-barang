@@ -16,10 +16,10 @@ security:
   - bearerAuth: []
 tags:
   - name: Auth
-  - name: Menu
-  - name: Action
   - name: Role
   - name: User
+  - name: Rak
+  - name: Category
 paths:
   /v1/auth/login:
     $ref: "auth.yml#/login"
@@ -30,24 +30,10 @@ paths:
   /v1/auth/logout:
     $ref: "auth.yml#/logout"
 
-  /v1/iam/action:
-    $ref: "iam/action.yml#/list_and_create"
-  /v1/iam/action/{actionId}:
-    $ref: "iam/action.yml#/update_and_delete"
-
-  /v1/iam/menu:
-    $ref: "iam/menu.yml#/list_and_create"
-  /v1/iam/menu/{menuId}:
-    $ref: "iam/menu.yml#/update_and_delete"
-
   /v1/iam/role:
     $ref: "iam/role.yml#/list_and_create"
   /v1/iam/role/{roleId}:
     $ref: "iam/role.yml#/update_and_delete"
-  /v1/iam/role/{roleId}/assign-menu:
-    $ref: "iam/role.yml#/assign_menu"
-  /v1/iam/role/{roleId}/assign-action:
-    $ref: "iam/role.yml#/assign_action"
 
   /v1/iam/user:
     $ref: "iam/user.yml#/list_and_create"
@@ -55,3 +41,18 @@ paths:
     $ref: "iam/user.yml#/update_and_delete"
   /v1/iam/user/{userId}/change-avatar:
     $ref: "iam/user.yml#/change_avatar"
+
+  /v1/master/rak:
+    $ref: "master/rak.yml#/list_and_create"
+  /v1/master/rak/{rakId}:
+    $ref: "master/rak.yml#/update_and_delete"
+
+  /v1/master/kategori:
+    $ref: "master/kategori.yml#/list_and_create"
+  /v1/master/kategori/{categoryId}:
+    $ref: "master/kategori.yml#/update_and_delete"
+
+  /v1/master/inventaris:
+    $ref: "master/inventaris.yml#/list_and_create"
+  /v1/master/inventaris/{inventarisId}:
+    $ref: "master/inventaris.yml#/update_and_delete"

@@ -19,9 +19,10 @@ class KategoriService
     /**
      * Mengambil paginasi data dari resources
      */
-    public static function list(int $perPage, string $sort): JsonResource
+    public static function list(int $perPage, string $sort, string $keyword): JsonResource
     {
-        $pagination = Kategori::orderBy('id', $sort)
+        $pagination = Kategori::orderBy('name', $sort)
+            ->search($keyword)
             ->paginate($perPage);
 
         return new PaginationCollection($pagination, KategoriResource::class);

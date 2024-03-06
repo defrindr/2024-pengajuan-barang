@@ -19,9 +19,10 @@ class RakService
     /**
      * Mengambil paginasi data dari resources
      */
-    public static function list(int $perPage, string $sort): JsonResource
+    public static function list(int $perPage, string $sort, string $keyword): JsonResource
     {
-        $pagination = Rak::orderBy('id', $sort)
+        $pagination = Rak::orderBy('name', $sort)
+            ->search($keyword)
             ->paginate($perPage);
 
         return new PaginationCollection($pagination, RakResource::class);

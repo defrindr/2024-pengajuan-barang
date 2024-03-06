@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\Inventaris;
 
-use App\Http\Models\Kategori;
+use App\Models\Inventaris\Kategori;
 use Illuminate\Database\Seeder;
 
 class KategoriSeeder extends Seeder

@@ -51,7 +51,7 @@ class CrudGenerator extends Command
 
     protected function model($name, $module = null)
     {
-        $namespace = $this->getNamespace('Models');
+        $namespace = $this->getNamespaceModel($module);
         $modelTemplate = str_replace(
             [
                 '{{ rootNamespace }}',

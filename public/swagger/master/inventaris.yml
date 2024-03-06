@@ -1,0 +1,67 @@
+list_and_create:
+  get:
+    tags:
+      - Inventaris
+    summary: list of inventory with pagination
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          example: 1
+        description: The number of page
+      - in: query
+        name: per-page
+        schema:
+          type: integer
+          example: 10
+        description: The numbers of items to return
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: The keyword searching
+      - in: query
+        name: sort
+        schema:
+          type: string
+          example: asc
+        description: Sort type
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Schema mismatch or request invalid
+update_and_delete:
+  get:
+    tags:
+      - Inventaris
+    summary: Get inventory by specific ID
+    parameters:
+      - in: path
+        name: inventarisId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the inventory to get
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Schema mismatch or request invalid
+  delete:
+    tags:
+      - Inventaris
+    summary: Delete inventory by ID
+    parameters:
+      - in: path
+        name: inventarisId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the inventory to get
+    responses:
+      200:
+        description: Deleted
+      404:
+        description: Not found / already deleted
