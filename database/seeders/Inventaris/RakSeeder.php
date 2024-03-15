@@ -12,10 +12,8 @@ class RakSeeder extends Seeder
      */
     public function run(): void
     {
-        $names = ['Rak A', 'Rak B', 'Rak C'];
-
-        foreach ($names as $name) {
-            Rak::create(['name' => $name]);
+        for ($i = 0; $i < 26; $i++) {
+            Rak::create(['name' => 'Rak ' . chr(65 + $i)]);
         }
     }
 }
