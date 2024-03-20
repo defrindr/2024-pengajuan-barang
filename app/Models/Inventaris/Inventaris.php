@@ -21,6 +21,7 @@ class Inventaris extends BaseModel
     protected $table = 'inventaris';
 
     protected $fillable = ['qrcode', 'name', 'category_id', 'rak_id', 'stok_sekarang', 'stok_total'];
+
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
     public function scopeSearch(Builder $builder, string $keyword): void
@@ -29,13 +30,13 @@ class Inventaris extends BaseModel
         $rakTable = Rak::getTableName();
         $selfTable = self::getTableName();
         $builder
-            ->leftJoin($kategoriTable,  "{$kategoriTable}.id", "{$selfTable}.category_id")
-            ->leftJoin($rakTable,  "{$rakTable}.id", "{$selfTable}.rak_id")
+            ->leftJoin($kategoriTable, "{$kategoriTable}.id", "{$selfTable}.category_id")
+            ->leftJoin($rakTable, "{$rakTable}.id", "{$selfTable}.rak_id")
             ->where(function ($builder) use ($keyword, $kategoriTable, $rakTable, $selfTable) {
                 $builder->where("{$selfTable}.name", 'like', "%$keyword%")
                     ->orWhere("{$kategoriTable}.name", 'like', "%$keyword%")
                     ->orWhere("{$rakTable}.name", 'like', "%$keyword%");
-            })->select($selfTable . ".*");
+            })->select($selfTable.'.*');
     }
 
     public static function boot()

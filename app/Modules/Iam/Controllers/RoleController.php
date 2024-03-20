@@ -5,8 +5,6 @@ namespace App\Modules\Iam\Controllers;
 use App\Helpers\PaginationHelper;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
-use App\Modules\Iam\Requests\RoleAssignActionRequest;
-use App\Modules\Iam\Requests\RoleAssignMenuRequest;
 use App\Modules\Iam\Requests\RoleStoreRequest;
 use App\Modules\Iam\Requests\RoleUpdateRequest;
 use App\Modules\Iam\Services\RoleService;
@@ -65,40 +63,6 @@ class RoleController extends Controller
             Log::error($th->getMessage());
 
             return ResponseHelper::error($th, 'Terjadi kesalahan saat menjalankan aksi');
-        }
-    }
-
-    public function assignAction(RoleAssignActionRequest $request, int $id): JsonResponse
-    {
-        try {
-            $success = RoleService::assignAction($id, $request->validated());
-
-            if ($success['status']) {
-                return ResponseHelper::successWithData(null, $success['created'] ? 'Aksi berhasil ditetapkan' : 'Aksi berhasil dihapus dari role');
-            } else {
-                return ResponseHelper::badRequest('Aksi gagal ditetapkan');
-            }
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-
-            return ResponseHelper::error($th, 'Terjadi kesalahan saat menjalankan aksi');
-        }
-    }
-
-    public function assignMenu(RoleAssignMenuRequest $request, int $id): JsonResponse
-    {
-        try {
-            $success = RoleService::assignMenu($id, $request->validated());
-
-            if ($success['status']) {
-                return ResponseHelper::successWithData(null, $success['created'] ? 'Menu berhasil ditetapkan' : 'Menu berhasil dihapus dari role');
-            } else {
-                return ResponseHelper::badRequest('Menu gagal ditetapkan');
-            }
-        } catch (\Throwable $th) {
-            Log::error($th->getMessage());
-
-            return ResponseHelper::error($th, 'Terjadi kesalahan saat menjalankan Menu');
         }
     }
 

@@ -23,7 +23,7 @@ class InventarisService
      */
     public static function list(int $perPage, string $sort, string $keyword): JsonResource
     {
-        $pagination = Inventaris::orderBy(Inventaris::getTableName() . '.id', $sort)
+        $pagination = Inventaris::orderBy(Inventaris::getTableName().'.id', $sort)
             ->search($keyword)
             ->paginate($perPage);
 
@@ -53,7 +53,7 @@ class InventarisService
     public static function has(int $id): Inventaris
     {
         $resource = Inventaris::find($id);
-        if (!$resource) {
+        if (! $resource) {
             throw new NotFoundHttpException("Resource #{$id} tidak ditemukan.");
         }
 
@@ -73,6 +73,7 @@ class InventarisService
                 ->header('Content-type', 'image/png');
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
+
             return null;
         }
     }

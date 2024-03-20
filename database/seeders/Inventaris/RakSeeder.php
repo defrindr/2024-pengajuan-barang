@@ -13,7 +13,7 @@ class RakSeeder extends Seeder
     public function run(): void
     {
         for ($i = 0; $i < 26; $i++) {
-            Rak::create(['name' => 'Rak ' . chr(65 + $i)]);
+            Rak::create(['name' => 'Rak '.chr(65 + $i)]);
         }
     }
 }

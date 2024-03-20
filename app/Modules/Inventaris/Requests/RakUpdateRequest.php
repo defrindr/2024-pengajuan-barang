@@ -27,7 +27,7 @@ class RakUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required'
+            'name' => 'required',
         ];
     }
 }

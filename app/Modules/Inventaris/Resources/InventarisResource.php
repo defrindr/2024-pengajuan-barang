@@ -16,7 +16,7 @@ class InventarisResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $parent =  parent::toArray($request);
+        $parent = parent::toArray($request);
 
         $parent['qrcode'] = route('v1.master.inventaris.qr', ['id' => $this->id]);
         $parent['category'] = Kategori::where('id', $this->category_id)->first();

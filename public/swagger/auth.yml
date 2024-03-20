@@ -28,6 +28,26 @@ me:
         description: Successfully
       401:
         description: Bearer token not valid
+change-profile:
+  post:
+    tags:
+      - Auth
+    summary: Update user profile
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            example:
+              username: developer
+              password: ''
+              name: Developer
+              email: contact.developer@pangajuan.dev
+    responses:
+      200:
+        description: Successfully
+      401:
+        description: Bearer token not valid
 refresh:
   post:
     tags:

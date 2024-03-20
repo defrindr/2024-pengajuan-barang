@@ -25,6 +25,8 @@ paths:
     $ref: "auth.yml#/login"
   /v1/auth/me:
     $ref: "auth.yml#/me"
+  /v1/auth/change-profile:
+    $ref: "auth.yml#/change-profile"
   /v1/auth/refresh:
     $ref: "auth.yml#/refresh"
   /v1/auth/logout:

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
+use App\Http\Requests\Auth\ChangeProfileRequest;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Services\AuthService;
 use App\Modules\Iam\Resources\UserResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +33,7 @@ class AuthController extends Controller
         $token = Auth::guard('api')->attempt($credentials);
 
         // gagal login
-        if (! $token) {
+        if (!$token) {
             return ResponseHelper::conflict('The username and password not match');
         }
 
@@ -47,6 +49,21 @@ class AuthController extends Controller
         $user = Auth::guard('api')->user();
 
         return ResponseHelper::successWithData(new UserResource($user), 'Profile successful fetched');
+    }
+
+    /**
+     * Mendapatkan profil dari pengguna
+     */
+    public function changeProfile(ChangeProfileRequest $request): JsonResponse
+    {
+        $user = Auth::guard('api')->user();
+
+        $response = AuthService::changeProfile($request->validated(), $user);
+        if ($response) {
+            return ResponseHelper::successWithData(new UserResource($user), 'Profile berhasil di update');
+        }
+
+        return ResponseHelper::badRequest('Profile gagal di update');
     }
 
     /**
@@ -78,11 +95,11 @@ class AuthController extends Controller
         /** @var Illuminate\Auth\AuthManager */
         $auth = Auth::guard('api');
 
-        return ResponseHelper::success([
+        return ResponseHelper::successWithData([
             'accessToken' => $token,
             'tokenType' => 'bearer',
             'user' => new UserResource($auth->user()),
-            'expiresIn' => $auth->factory()?->getTTL() * 60,
+            'expiresIn' => time() + ($auth->factory()?->getTTL() * 60),
         ]);
     }
 }

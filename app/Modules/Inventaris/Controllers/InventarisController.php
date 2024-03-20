@@ -5,8 +5,6 @@ namespace App\Modules\Inventaris\Controllers;
 use App\Helpers\PaginationHelper;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
-use App\Modules\Inventaris\Requests\InventarisStoreRequest;
-use App\Modules\Inventaris\Requests\InventarisUpdateRequest;
 use App\Modules\Inventaris\Services\InventarisService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -55,7 +53,6 @@ class InventarisController extends Controller
             return ResponseHelper::error($th, 'Terjadi kesalahan saat menjalankan aksi');
         }
     }
-
 
     public function qrcode(int $id)
     {

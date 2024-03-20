@@ -19,6 +19,7 @@ class Kategori extends BaseModel
     protected $table = 'kategori';
 
     protected $fillable = ['name'];
+
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
     public function scopeSearch(Builder $builder, string $keyword): void
