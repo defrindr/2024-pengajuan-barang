@@ -33,7 +33,7 @@ class AuthController extends Controller
         $token = Auth::guard('api')->attempt($credentials);
 
         // gagal login
-        if (!$token) {
+        if (! $token) {
             return ResponseHelper::conflict('The username and password not match');
         }
 
