@@ -56,5 +56,7 @@ paths:
 
   /v1/master/inventaris:
     $ref: "master/inventaris.yml#/list_and_create"
+  /v1/master/inventaris/not-empty-stock:
+    $ref: "master/inventaris.yml#/not_empty_stock"
   /v1/master/inventaris/{inventarisId}:
     $ref: "master/inventaris.yml#/update_and_delete"

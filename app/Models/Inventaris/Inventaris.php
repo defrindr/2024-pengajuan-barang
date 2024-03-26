@@ -39,6 +39,11 @@ class Inventaris extends BaseModel
             })->select($selfTable.'.*');
     }
 
+    public function scopeNotEmptyStock(Builder $builder): void
+    {
+        $builder->where('stok_sekarang', '>', 0);
+    }
+
     public static function boot()
     {
         parent::boot();

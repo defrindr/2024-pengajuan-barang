@@ -31,11 +31,37 @@ class InventarisService
     }
 
     /**
+     * Mengambil paginasi data dari resources
+     */
+    public static function notEmptyStock(int $perPage, string $sort, string $keyword): JsonResource
+    {
+        $pagination = Inventaris::orderBy(Inventaris::getTableName().'.id', $sort)
+            ->notEmptyStock()
+            ->search($keyword)
+            ->paginate($perPage);
+
+        return new PaginationCollection($pagination, InventarisResource::class);
+    }
+
+    /**
      * Mendapatkan resource by id
      */
     public static function getById(int $id): JsonResource
     {
         $resource = self::has($id);
+
+        return new InventarisResource($resource);
+    }
+
+    /**
+     * Mendapatkan resource by id
+     */
+    public static function getByQrcode(string $qrcode): JsonResource
+    {
+        $resource = Inventaris::where('qrcode', $qrcode)->first();
+        if (! $resource) {
+            throw new NotFoundHttpException('Resource tidak ditemukan');
+        }
 
         return new InventarisResource($resource);
     }

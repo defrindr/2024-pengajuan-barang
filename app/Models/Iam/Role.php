@@ -9,6 +9,12 @@ class Role extends BaseModel
 {
     use HasFactory;
 
+    const ROLE_ADMIN = 1;
+
+    const ROLE_VENDOR = 2;
+
+    const ROLE_EMPLOYEE = 3;
+
     protected $fillable = ['name', 'description'];
 
     protected $hidden = [

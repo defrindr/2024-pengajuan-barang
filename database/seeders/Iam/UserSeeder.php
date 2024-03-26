@@ -23,5 +23,23 @@ class UserSeeder extends Seeder
             'photo' => User::DEFAULT_AVATAR,
             'role_id' => Role::where('name', 'developer')->first()->id,
         ]);
+        User::create([
+            'username' => 'user',
+            'name' => 'User',
+            'email_verified_at' => null,
+            'password' => Hash::make('user'),
+            'email' => 'contact.user@app.com',
+            'photo' => User::DEFAULT_AVATAR,
+            'role_id' => Role::where('name', 'user')->first()->id,
+        ]);
+        User::create([
+            'username' => 'vendor',
+            'name' => 'vendor',
+            'email_verified_at' => null,
+            'password' => Hash::make('vendor'),
+            'email' => 'contact.vendor@app.com',
+            'photo' => User::DEFAULT_AVATAR,
+            'role_id' => Role::where('name', 'vendor')->first()->id,
+        ]);
     }
 }

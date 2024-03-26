@@ -13,5 +13,7 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         Role::create(['id' => 1, 'name' => 'developer', 'description' => 'Access for developer only']);
+        Role::create(['id' => 2, 'name' => 'vendor', 'description' => 'Access for vendor only']);
+        Role::create(['id' => 3, 'name' => 'user', 'description' => 'Access for user only']);
     }
 }

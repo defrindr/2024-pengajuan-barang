@@ -7,11 +7,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
     'prefix' => 'master', 'as' => 'master.',
-    // , 'middleware' => 'auth:api'
 ], function () {
-    Route::resource('rak', RakController::class);
-    Route::resource('kategori', KategoriController::class);
-    Route::resource('inventaris', InventarisController::class)->except(['store', 'update']);
 
     Route::get('/inventaris/qr/{id}', [InventarisController::class, 'qrcode'])->name('inventaris.qr');
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::resource('rak', RakController::class);
+        Route::resource('kategori', KategoriController::class);
+
+        Route::get('/inventaris/get-by-qr/{qrcode}', [InventarisController::class, 'getByQrcode'])->name('inventaris.get-by-qr');
+        Route::get('/inventaris/not-empty-stock', [InventarisController::class, 'notEmptyStock'])->name('inventaris.not-empty-stock');
+        Route::resource('inventaris', InventarisController::class)->except(['store', 'update']);
+    });
 });

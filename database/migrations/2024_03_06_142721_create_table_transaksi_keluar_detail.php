@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('transaksi_keluar_id')->references('id')->on('transaksi_keluar');
             $table->foreignId('item_id')->references('id')->on('inventaris')->default(null);
+            $table->string('nama_barang');
             $table->integer('stok');
             $table->timestamps();
         });

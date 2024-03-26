@@ -32,6 +32,40 @@ list_and_create:
         description: Successfully
       400:
         description: Schema mismatch or request invalid
+not_empty_stock:
+  get:
+    tags:
+      - Inventaris
+    summary: list of inventory with pagination and stock is not empty
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          example: 1
+        description: The number of page
+      - in: query
+        name: per-page
+        schema:
+          type: integer
+          example: 10
+        description: The numbers of items to return
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: The keyword searching
+      - in: query
+        name: sort
+        schema:
+          type: string
+          example: asc
+        description: Sort type
+    responses:
+      200:
+        description: Successfully
+      400:
+        description: Schema mismatch or request invalid
 update_and_delete:
   get:
     tags:

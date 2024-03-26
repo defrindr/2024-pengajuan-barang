@@ -26,6 +26,26 @@ class InventarisController extends Controller
         return ResponseHelper::successWithData(InventarisService::list($perPage, $sort, $keyword));
     }
 
+    public function notEmptyStock(Request $request): JsonResponse
+    {
+        $perPage = PaginationHelper::perPage($request);
+        $sort = PaginationHelper::sortCondition($request, PaginationHelper::SORT_DESC);
+        $keyword = $request->get('search') ?? '';
+
+        return ResponseHelper::successWithData(InventarisService::notEmptyStock($perPage, $sort, $keyword));
+    }
+
+    public function getByQrcode(string $qrcode): JsonResponse
+    {
+        try {
+            return ResponseHelper::successWithData(InventarisService::getByQrcode($qrcode));
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+
+            return ResponseHelper::error($th, 'Terjadi kesalahan saat menjalankan aksi');
+        }
+    }
+
     public function show(int $id): JsonResponse
     {
         try {

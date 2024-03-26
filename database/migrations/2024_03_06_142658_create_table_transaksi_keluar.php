@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string('perihal');
             $table->date('tanggal');
             $table->enum('status', ['pengajuan', 'diterima', 'ditolak']);
-            $table->foreignId('approver_id')->references('id')->on('users')->default(null);
+            $table->foreignId('approver_id')->nullable()->references('id')->on('users');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
