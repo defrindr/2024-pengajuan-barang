@@ -27,7 +27,7 @@ class InventarisStoreRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            'name'=> 'required',
+            'name' => 'required',
             'category_id' => 'required',
             'rak_id' => 'required',
             'stok' => 'required',

@@ -64,7 +64,7 @@ class PengajuanMasukController extends Controller
     {
         $user = auth()->user();
         try {
-            if ($type == "accept") {
+            if ($type == 'accept') {
                 $success = PengajuanMasukService::acc($id, $user);
             } else {
                 $success = PengajuanMasukService::reject($id, $user);

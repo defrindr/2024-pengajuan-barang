@@ -25,17 +25,18 @@ class InventarisService
      */
     public static function list(int $perPage, string $sort, string $keyword): JsonResource
     {
-        $pagination = Inventaris::orderBy(Inventaris::getTableName() . '.id', $sort)
+        $pagination = Inventaris::orderBy(Inventaris::getTableName().'.id', $sort)
             ->search($keyword)
             ->paginate($perPage);
 
         return new PaginationCollection($pagination, InventarisResource::class);
     }
 
-    public static function options() {
+    public static function options()
+    {
         return [
-            "categories" => Kategori::select('id', 'name')->get(),
-            "raks" => Rak::select('id', 'name')->get(),
+            'categories' => Kategori::select('id', 'name')->get(),
+            'raks' => Rak::select('id', 'name')->get(),
         ];
     }
 
@@ -61,13 +62,12 @@ class InventarisService
         return $resource->update($payload) ? true : false;
     }
 
-
     /**
      * Mengambil paginasi data dari resources
      */
     public static function notEmptyStock(int $perPage, string $sort, string $keyword): JsonResource
     {
-        $pagination = Inventaris::orderBy(Inventaris::getTableName() . '.id', $sort)
+        $pagination = Inventaris::orderBy(Inventaris::getTableName().'.id', $sort)
             ->notEmptyStock()
             ->search($keyword)
             ->paginate($perPage);
@@ -91,7 +91,7 @@ class InventarisService
     public static function getByQrcode(string $qrcode): JsonResource
     {
         $resource = Inventaris::where('qrcode', $qrcode)->first();
-        if (!$resource) {
+        if (! $resource) {
             throw new NotFoundHttpException('Resource tidak ditemukan');
         }
 
@@ -111,7 +111,7 @@ class InventarisService
     public static function has(int $id): Inventaris
     {
         $resource = Inventaris::find($id);
-        if (!$resource) {
+        if (! $resource) {
             throw new NotFoundHttpException("Resource #{$id} tidak ditemukan.");
         }
 

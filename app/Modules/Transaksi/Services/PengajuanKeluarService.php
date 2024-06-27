@@ -19,7 +19,7 @@ class PengajuanKeluarService extends Controller
 {
     public static function list($query, int $perPage, string $sort, string $keyword): JsonResource
     {
-        $pagination = $query->orderBy(PengajuanKeluar::getTableName() . '.id', $sort)
+        $pagination = $query->orderBy(PengajuanKeluar::getTableName().'.id', $sort)
             ->search($keyword)
             ->paginate($perPage);
 
@@ -46,7 +46,7 @@ class PengajuanKeluarService extends Controller
             'status' => PengajuanKeluar::STATUS_PENGAJUAN,
         ]);
 
-        if (!$transaction->save()) {
+        if (! $transaction->save()) {
             DB::rollBack();
             throw new BadRequestHttpException('Gagal menyimpan pengajuan masuk');
         }
@@ -61,7 +61,7 @@ class PengajuanKeluarService extends Controller
             ];
         }
 
-        if (!PengajuanKeluarItem::insert($bulk_items)) {
+        if (! PengajuanKeluarItem::insert($bulk_items)) {
             DB::rollBack();
             throw new BadRequestHttpException('Gagal menyimpan item pengajuan masuk');
         }
@@ -90,7 +90,6 @@ class PengajuanKeluarService extends Controller
 
         return true;
     }
-
 
     public static function acc(int $id, User $user)
     {
@@ -129,11 +128,10 @@ class PengajuanKeluarService extends Controller
         return true;
     }
 
-
     public static function has(int $id): PengajuanKeluar
     {
         $resource = PengajuanKeluar::find($id);
-        if (!$resource) {
+        if (! $resource) {
             throw new NotFoundHttpException("Resource #{$id} tidak ditemukan.");
         }
 

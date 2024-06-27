@@ -62,7 +62,8 @@ class InventarisController extends Controller
         }
     }
 
-    public function options() {
+    public function options()
+    {
         return ResponseHelper::successWithData(InventarisService::options(), 'Resource berhasil diubah');
     }
 
