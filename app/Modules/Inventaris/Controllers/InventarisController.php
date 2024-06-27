@@ -5,6 +5,8 @@ namespace App\Modules\Inventaris\Controllers;
 use App\Helpers\PaginationHelper;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Modules\Inventaris\Requests\InventarisStoreRequest;
+use App\Modules\Inventaris\Requests\InventarisUpdateRequest;
 use App\Modules\Inventaris\Services\InventarisService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -24,6 +26,44 @@ class InventarisController extends Controller
         $keyword = $request->get('search') ?? '';
 
         return ResponseHelper::successWithData(InventarisService::list($perPage, $sort, $keyword));
+    }
+
+    public function store(InventarisStoreRequest $request): JsonResponse
+    {
+        try {
+            $success = InventarisService::store($request->validated());
+
+            if ($success) {
+                return ResponseHelper::successWithData(null, 'Resource berhasil dibuat', 201);
+            } else {
+                return ResponseHelper::badRequest('Resource gagal dibuat');
+            }
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+
+            return ResponseHelper::error($th, 'Terjadi kesalahan saat menjalankan aksi');
+        }
+    }
+
+    public function update(InventarisUpdateRequest $request, int $id): JsonResponse
+    {
+        try {
+            $success = InventarisService::update($id, $request->validated());
+
+            if ($success) {
+                return ResponseHelper::successWithData(null, 'Resource berhasil diubah');
+            } else {
+                return ResponseHelper::badRequest('Resource gagal diubah');
+            }
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+
+            return ResponseHelper::error($th, 'Terjadi kesalahan saat menjalankan aksi');
+        }
+    }
+
+    public function options() {
+        return ResponseHelper::successWithData(InventarisService::options(), 'Resource berhasil diubah');
     }
 
     public function notEmptyStock(Request $request): JsonResponse

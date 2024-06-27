@@ -5,6 +5,8 @@ namespace App\Modules\Inventaris\Services;
 use App\Exceptions\NotFoundHttpException;
 use App\Http\Resources\PaginationCollection;
 use App\Models\Inventaris\Inventaris;
+use App\Models\Inventaris\Kategori;
+use App\Models\Inventaris\Rak;
 use App\Modules\Inventaris\Resources\InventarisResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Log;
@@ -23,19 +25,49 @@ class InventarisService
      */
     public static function list(int $perPage, string $sort, string $keyword): JsonResource
     {
-        $pagination = Inventaris::orderBy(Inventaris::getTableName().'.id', $sort)
+        $pagination = Inventaris::orderBy(Inventaris::getTableName() . '.id', $sort)
             ->search($keyword)
             ->paginate($perPage);
 
         return new PaginationCollection($pagination, InventarisResource::class);
     }
 
+    public static function options() {
+        return [
+            "categories" => Kategori::select('id', 'name')->get(),
+            "raks" => Rak::select('id', 'name')->get(),
+        ];
+    }
+
+    /**
+     * Menyimpan payload ke database
+     */
+    public static function store(array $payload): bool
+    {
+        $payload['stok_sekarang'] = $payload['stok'];
+        $payload['stok_total'] = $payload['stok'];
+
+        return Inventaris::create($payload) ? true : false;
+    }
+
+    /**
+     * Menyimpan perubahan payload ke database sesuai dengan resource yang dipilih
+     */
+    public static function update(int $id, array $payload): bool
+    {
+        $resource = self::has($id);
+        $payload = array_filter($payload, 'strlen');
+
+        return $resource->update($payload) ? true : false;
+    }
+
+
     /**
      * Mengambil paginasi data dari resources
      */
     public static function notEmptyStock(int $perPage, string $sort, string $keyword): JsonResource
     {
-        $pagination = Inventaris::orderBy(Inventaris::getTableName().'.id', $sort)
+        $pagination = Inventaris::orderBy(Inventaris::getTableName() . '.id', $sort)
             ->notEmptyStock()
             ->search($keyword)
             ->paginate($perPage);
@@ -59,7 +91,7 @@ class InventarisService
     public static function getByQrcode(string $qrcode): JsonResource
     {
         $resource = Inventaris::where('qrcode', $qrcode)->first();
-        if (! $resource) {
+        if (!$resource) {
             throw new NotFoundHttpException('Resource tidak ditemukan');
         }
 
@@ -79,7 +111,7 @@ class InventarisService
     public static function has(int $id): Inventaris
     {
         $resource = Inventaris::find($id);
-        if (! $resource) {
+        if (!$resource) {
             throw new NotFoundHttpException("Resource #{$id} tidak ditemukan.");
         }
 

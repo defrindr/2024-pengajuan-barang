@@ -27,7 +27,9 @@ class InventarisUpdateRequest extends BaseFormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required',
+            'category_id' => 'required',
+            'rak_id' => 'required',
         ];
     }
 }
