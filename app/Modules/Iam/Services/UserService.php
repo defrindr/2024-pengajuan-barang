@@ -6,6 +6,7 @@ use App\Exceptions\NotFoundHttpException;
 use App\Helpers\PaginationHelper;
 use App\Helpers\RequestHelper;
 use App\Http\Resources\PaginationCollection;
+use App\Models\Iam\Role;
 use App\Models\Iam\User;
 use App\Modules\Iam\Resources\UserResource;
 use Illuminate\Http\Request;
@@ -33,6 +34,13 @@ class UserService
 
         // collect pagination
         return new PaginationCollection($pagination, UserResource::class);
+    }
+
+    public static function options()
+    {
+        return [
+            "roles" => Role::select('id', 'name')->get()
+        ];
     }
 
     /**
@@ -79,7 +87,7 @@ class UserService
         // simpan foto ke storage
         if ($photo) {
             $responseUpload = RequestHelper::uploadImage($photo, User::getRelativeAvatarPath(), $user->photo !== User::DEFAULT_AVATAR ? $user->photo : null);
-            if (! $responseUpload['success']) {
+            if (!$responseUpload['success']) {
                 throw new BadRequestHttpException('Gambar gagal diunggah');
             }
             $payload['photo'] = $responseUpload['fileName'];
@@ -98,7 +106,7 @@ class UserService
     public static function has(int $userId): User
     {
         $resource = User::find($userId);
-        if (! $resource) {
+        if (!$resource) {
             throw new NotFoundHttpException("Resource #{$userId} tidak ditemukan.");
         }
 

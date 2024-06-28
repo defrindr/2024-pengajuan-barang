@@ -10,4 +10,5 @@ Route::group([
     Route::resource('role', RoleController::class);
     Route::resource('user', UserController::class);
     Route::post('/user/{userId}/change-avatar', [UserController::class, 'changeAvatar'])->name('user.change-avatar');
+    Route::post('/user/options', [UserController::class, 'options'])->name('user.options');
 });

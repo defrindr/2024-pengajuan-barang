@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
 use App\Models\Iam\Role;
+use App\Models\Iam\User;
 use App\Models\Inventaris\Inventaris;
 use App\Models\Inventaris\Kategori;
 use App\Models\Inventaris\Rak;
@@ -36,6 +37,12 @@ class MainController extends Controller
                 'title' => 'Inventaris',
                 'to' => 'app.inventaris.list',
                 'icon' => 'database',
+            ];
+            $items[] = [
+                'count' => User::count(),
+                'title' => 'Pengguna',
+                'to' => 'app.user.list',
+                'icon' => 'users',
             ];
         }
 

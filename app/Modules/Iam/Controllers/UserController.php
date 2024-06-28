@@ -121,4 +121,8 @@ class UserController extends Controller
             return ResponseHelper::error($th, 'Terjadi kesalahan saat menjalankan aksi');
         }
     }
+
+    public function options() : JsonResponse {
+        return ResponseHelper::successWithData(UserService::options(), 'Berhasil mengambil options');
+    }
 }
