@@ -16,6 +16,8 @@ class PengajuanKeluar extends BaseModel
 
     const STATUS_DITOLAK = 'ditolak';
 
+    const STATUS_DIKEMBALIKAN = 'dikembalikan';
+
     protected $table = 'transaksi_keluar';
 
     protected $fillable = [
@@ -31,5 +33,10 @@ class PengajuanKeluar extends BaseModel
     public function scopeSearch(Builder $builder, string $keyword): void
     {
         $builder->where('perihal', 'like', "%{$keyword}%");
+    }
+
+    public function items()
+    {
+        return $this->hasMany(PengajuanKeluarItem::class, 'transaksi_keluar_id');
     }
 }

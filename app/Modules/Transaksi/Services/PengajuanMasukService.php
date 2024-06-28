@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PaginationCollection;
 use App\Models\Iam\Role;
 use App\Models\Iam\User;
+use App\Models\Inventaris\Inventaris;
 use App\Models\Transaksi\PengajuanMasuk;
 use App\Models\Transaksi\PengajuanMasukItem;
 use App\Modules\Transaksi\Resources\PengajuanMasukResource;
@@ -94,17 +95,29 @@ class PengajuanMasukService extends Controller
 
     public static function acc(int $id, User $user)
     {
-        $item = static::has($id);
+        $model = static::has($id);
 
-        if ($item->status !== PengajuanMasuk::STATUS_PENGAJUAN) {
+        if ($model->status !== PengajuanMasuk::STATUS_PENGAJUAN) {
             throw new BadRequestHttpException('Tidak dapat menghapus resource dengan status tersebut');
         } elseif ($user->id !== Role::ROLE_ADMIN) {
             throw new ForbiddenHttpException('Anda tidak mempunyai akses untuk menyetujui resource ini');
         }
 
         DB::beginTransaction();
-        $item->status = PengajuanMasuk::STATUS_DITERIMA;
-        $item->update();
+
+        $items = $model->items;
+
+        foreach ($items as $item) {
+            $product = Inventaris::where('id', $item->item_id)->first();
+
+            $product->stok_sekarang += $item->stok;
+            $product->stok_total += $item->stok;
+
+            $product->save();
+        }
+
+        $model->status = PengajuanMasuk::STATUS_DITERIMA;
+        $model->update();
 
         DB::commit();
 

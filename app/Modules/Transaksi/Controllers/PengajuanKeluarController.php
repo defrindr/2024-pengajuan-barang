@@ -78,7 +78,24 @@ class PengajuanKeluarController extends Controller
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
 
-            return ResponseHelper::error($th, 'Terjadi kesalahan saat menjalankan aksi');
+            return ResponseHelper::error($th, $th->getMessage() ?? 'Terjadi kesalahan saat menjalankan aksi');
+        }
+    }
+
+    public function back(int $id): JsonResponse
+    {
+        try {
+            $success = PengajuanKeluarService::back($id);
+
+            if ($success) {
+                return ResponseHelper::successWithData(null, 'Status berhasil diubah');
+            } else {
+                return ResponseHelper::badRequest('Resource mengubah status');
+            }
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+
+            return ResponseHelper::error($th, $th->getMessage() ?? 'Terjadi kesalahan saat menjalankan aksi');
         }
     }
 }

@@ -33,4 +33,9 @@ class PengajuanMasuk extends BaseModel
     {
         $builder->where('perihal', 'like', "%{$keyword}%");
     }
+
+    public function items()
+    {
+        return $this->hasMany(PengajuanMasukItem::class, 'transaksi_masuk_id');
+    }
 }

@@ -9,11 +9,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\PaginationCollection;
 use App\Models\Iam\Role;
 use App\Models\Iam\User;
+use App\Models\Inventaris\Inventaris;
 use App\Models\Transaksi\PengajuanKeluar;
 use App\Models\Transaksi\PengajuanKeluarItem;
 use App\Modules\Transaksi\Resources\PengajuanKeluarResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class PengajuanKeluarService extends Controller
 {
@@ -93,16 +95,58 @@ class PengajuanKeluarService extends Controller
 
     public static function acc(int $id, User $user)
     {
-        $item = static::has($id);
-        if ($item->status !== PengajuanKeluar::STATUS_PENGAJUAN) {
+        $model = static::has($id);
+        if ($model->status !== PengajuanKeluar::STATUS_PENGAJUAN) {
             throw new BadRequestHttpException('Tidak dapat menghapus resource dengan status tersebut');
         } elseif ($user->id !== Role::ROLE_ADMIN) {
             throw new ForbiddenHttpException('Anda tidak mempunyai akses untuk menyetujui resource ini');
         }
 
         DB::beginTransaction();
-        $item->status = PengajuanKeluar::STATUS_DITERIMA;
-        $item->update();
+
+        $items = $model->items;
+
+        foreach ($items as $item) {
+            $product = Inventaris::where('id', $item->item_id)->first();
+
+            $product->stok_sekarang -= $item->stok;
+
+            if ($product->stok_sekarang < 0) {
+                throw new BadRequestException('Produk #'.$product->name.' stok tidak cukup');
+            }
+
+            $product->save();
+        }
+
+        $model->status = PengajuanKeluar::STATUS_DITERIMA;
+        $model->update();
+
+        DB::commit();
+
+        return true;
+    }
+
+    public static function back(int $id)
+    {
+        $model = static::has($id);
+        if ($model->status !== PengajuanKeluar::STATUS_DITERIMA) {
+            throw new BadRequestHttpException('Tidak dapat menghapus resource dengan status tersebut');
+        }
+
+        DB::beginTransaction();
+
+        $items = $model->items;
+
+        foreach ($items as $item) {
+            $product = Inventaris::where('id', $item->item_id)->first();
+
+            $product->stok_sekarang += $item->stok;
+
+            $product->save();
+        }
+
+        $model->status = PengajuanKeluar::STATUS_DIKEMBALIKAN;
+        $model->update();
 
         DB::commit();
 

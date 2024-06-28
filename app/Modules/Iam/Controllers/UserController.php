@@ -122,7 +122,8 @@ class UserController extends Controller
         }
     }
 
-    public function options() : JsonResponse {
+    public function options(): JsonResponse
+    {
         return ResponseHelper::successWithData(UserService::options(), 'Berhasil mengambil options');
     }
 }
