@@ -16,7 +16,7 @@ class MainController extends Controller
     public static function dashboard()
     {
         $user = auth()->user();
-        $roleId = $user->role_id;
+        $roleId = intval($user->role_id);
 
         $items = [];
         if ($roleId === Role::ROLE_ADMIN) {
