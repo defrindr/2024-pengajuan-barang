@@ -30,6 +30,8 @@ class Inventaris extends BaseModel
         $rakTable = Rak::getTableName();
         $selfTable = self::getTableName();
         $builder->with(['category', 'rak'])
+            ->where("{$rakTable}.deleted_at", null)
+            ->where("{$kategoriTable}.deleted_at", null)
             // ->leftJoin($kategoriTable, "{$kategoriTable}.id", "{$selfTable}.category_id")
             // ->leftJoin($rakTable, "{$rakTable}.id", "{$selfTable}.rak_id")
             ->where(function ($builder) use ($keyword, $kategoriTable, $rakTable, $selfTable) {
