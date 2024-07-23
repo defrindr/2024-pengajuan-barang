@@ -55,11 +55,11 @@ class Inventaris extends BaseModel
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Kategori::class);
+        return $this->belongsTo(Kategori::class)->whereNull('deleted_at');
     }
 
     public function rak(): BelongsTo
     {
-        return $this->belongsTo(Rak::class);
+        return $this->belongsTo(Rak::class)->whereNull('deleted_at');
     }
 }
