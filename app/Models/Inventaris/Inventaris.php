@@ -29,11 +29,11 @@ class Inventaris extends BaseModel
         $kategoriTable = Kategori::getTableName();
         $rakTable = Rak::getTableName();
         $selfTable = self::getTableName();
-        $builder->with(['category', 'rak'])
+        $builder
+            ->leftJoin($kategoriTable, "{$kategoriTable}.id", "{$selfTable}.category_id")
+            ->leftJoin($rakTable, "{$rakTable}.id", "{$selfTable}.rak_id")
             ->where("{$rakTable}.deleted_at", null)
             ->where("{$kategoriTable}.deleted_at", null)
-            // ->leftJoin($kategoriTable, "{$kategoriTable}.id", "{$selfTable}.category_id")
-            // ->leftJoin($rakTable, "{$rakTable}.id", "{$selfTable}.rak_id")
             ->where(function ($builder) use ($keyword, $kategoriTable, $rakTable, $selfTable) {
                 $builder->where("{$selfTable}.name", 'like', "%$keyword%")
                     ->orWhere("{$kategoriTable}.name", 'like', "%$keyword%")
