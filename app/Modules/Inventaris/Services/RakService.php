@@ -7,6 +7,7 @@ use App\Http\Resources\PaginationCollection;
 use App\Models\Inventaris\Rak;
 use App\Modules\Inventaris\Resources\RakResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Kelas untuk handling bisnis proses
@@ -64,7 +65,19 @@ class RakService
     {
         $resource = self::has($id);
 
-        return $resource->delete();
+        DB::beginTransaction();
+
+        $deleted = 1;
+
+        $products = $resource->inventaris;
+        foreach ($products as $product) $deleted = $deleted && $product->delete();
+
+        $deleted = $deleted && $resource->delete();
+
+        if ($deleted) DB::commit();
+        else DB::rollBack();
+
+        return $deleted;
     }
 
     public static function has(int $id): Rak

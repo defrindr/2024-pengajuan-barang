@@ -5,6 +5,7 @@ namespace App\Models\Inventaris;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -27,5 +28,11 @@ class Kategori extends BaseModel
         $builder->where(function ($builder) use ($keyword) {
             $builder->where('name', 'like', "%$keyword%");
         });
+    }
+
+
+    public function inventaris(): HasMany
+    {
+        return $this->hasMany(Inventaris::class);
     }
 }
