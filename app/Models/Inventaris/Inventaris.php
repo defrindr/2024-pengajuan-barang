@@ -38,7 +38,7 @@ class Inventaris extends BaseModel
                 $builder->where("{$selfTable}.name", 'like', "%$keyword%")
                     ->orWhere("{$kategoriTable}.name", 'like', "%$keyword%")
                     ->orWhere("{$rakTable}.name", 'like', "%$keyword%");
-            })->select($selfTable . '.*');
+            })->select($selfTable.'.*');
     }
 
     public function scopeNotEmptyStock(Builder $builder): void

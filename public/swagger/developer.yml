@@ -3,7 +3,7 @@ info:
   title: POS-Penjualan
   version: 1.0.0
 servers:
-  - url: http://192.168.1.2:8000/api/
+  - url: http://localhost:8001/api/
 components:
   securitySchemes:
     noauthAuth:
@@ -58,5 +58,7 @@ paths:
     $ref: "master/inventaris.yml#/list_and_create"
   /v1/master/inventaris/not-empty-stock:
     $ref: "master/inventaris.yml#/not_empty_stock"
+  /v1/master/inventaris/{inventarisId}/modify-stock:
+    $ref: "master/inventaris.yml#/modify-stock"
   /v1/master/inventaris/{inventarisId}:
     $ref: "master/inventaris.yml#/update_and_delete"

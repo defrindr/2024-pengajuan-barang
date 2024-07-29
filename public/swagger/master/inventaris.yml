@@ -32,6 +32,34 @@ list_and_create:
         description: Successfully
       400:
         description: Schema mismatch or request invalid
+modify-stock:
+  put:
+    tags:
+      - Inventaris
+    summary: Modify stock Inventory
+    parameters:
+      - in: path
+        name: inventarisId
+        schema:
+          type: integer
+        required: true
+        description: Numeric ID of the inventory to get
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            example:
+              type: plus
+              quantity: 1
+    responses:
+      200:
+        description: Success
+      404:
+        description: Not found
+      400:
+        description: Request not Valid
+
 not_empty_stock:
   get:
     tags:

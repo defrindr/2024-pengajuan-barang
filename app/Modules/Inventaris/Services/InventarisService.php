@@ -2,6 +2,7 @@
 
 namespace App\Modules\Inventaris\Services;
 
+use App\Exceptions\BadRequestHttpException;
 use App\Exceptions\NotFoundHttpException;
 use App\Http\Resources\PaginationCollection;
 use App\Models\Inventaris\Inventaris;
@@ -25,7 +26,7 @@ class InventarisService
      */
     public static function list(int $perPage, string $sort, string $keyword): JsonResource
     {
-        $pagination = Inventaris::orderBy(Inventaris::getTableName().'.id', $sort)
+        $pagination = Inventaris::orderBy(Inventaris::getTableName() . '.id', $sort)
             ->search($keyword)
             ->paginate($perPage);
 
@@ -67,7 +68,7 @@ class InventarisService
      */
     public static function notEmptyStock(int $perPage, string $sort, string $keyword): JsonResource
     {
-        $pagination = Inventaris::orderBy(Inventaris::getTableName().'.id', $sort)
+        $pagination = Inventaris::orderBy(Inventaris::getTableName() . '.id', $sort)
             ->notEmptyStock()
             ->search($keyword)
             ->paginate($perPage);
@@ -91,7 +92,7 @@ class InventarisService
     public static function getByQrcode(string $qrcode): JsonResource
     {
         $resource = Inventaris::where('qrcode', $qrcode)->first();
-        if (! $resource) {
+        if (!$resource) {
             throw new NotFoundHttpException('Resource tidak ditemukan');
         }
 
@@ -111,7 +112,7 @@ class InventarisService
     public static function has(int $id): Inventaris
     {
         $resource = Inventaris::find($id);
-        if (! $resource) {
+        if (!$resource) {
             throw new NotFoundHttpException("Resource #{$id} tidak ditemukan.");
         }
 
@@ -134,5 +135,27 @@ class InventarisService
 
             return null;
         }
+    }
+
+    public static function modifyStock(int $id, array $payload)
+    {
+        $resource = self::has($id);
+
+        if ($payload['type'] === 'plus') {
+            $resource->update([
+                'stok_sekarang' => $resource->stok_sekarang + $payload['quantity'],
+                'stok_total' => $resource->stok_total + $payload['quantity'],
+            ]);
+        } else {
+            if ($payload['quantity'] > $resource->stok_sekarang) {
+                $resource->update([
+                    'stok_sekarang' => $resource->stok_sekarang - $payload['quantity'],
+                    'stok_total' => $resource->stok_total - $payload['quantity'],
+                ]);
+            } else {
+                throw new BadRequestHttpException('Pengurangan stok melebihi stok yang tersedia');
+            }
+        }
+        return true;
     }
 }
