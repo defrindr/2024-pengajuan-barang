@@ -30,7 +30,6 @@ class Kategori extends BaseModel
         });
     }
 
-
     public function inventaris(): HasMany
     {
         return $this->hasMany(Inventaris::class, 'category_id');

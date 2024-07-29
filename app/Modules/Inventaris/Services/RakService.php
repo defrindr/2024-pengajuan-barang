@@ -70,12 +70,17 @@ class RakService
         $deleted = 1;
 
         $products = $resource->inventaris;
-        foreach ($products as $product) $deleted = $deleted && $product->delete();
+        foreach ($products as $product) {
+            $deleted = $deleted && $product->delete();
+        }
 
         $deleted = $deleted && $resource->delete();
 
-        if ($deleted) DB::commit();
-        else DB::rollBack();
+        if ($deleted) {
+            DB::commit();
+        } else {
+            DB::rollBack();
+        }
 
         return $deleted;
     }
